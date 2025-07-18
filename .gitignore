@@ -1,0 +1,6 @@
+shared_ws/build/
+shared_ws/devel/
+shared_ws/.catkin_workspace
+shared_ws/eeprom.bin
+shared_ws/mav.tlog
+shared_ws/mav.tlog.raw

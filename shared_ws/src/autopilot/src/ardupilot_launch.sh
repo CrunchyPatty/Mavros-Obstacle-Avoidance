@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARDUPILOT_DIR=$(dirname $(rospack find autopilot))/arducopter
+ARDUPILOT_DIR=$(dirname $(rospack find autopilot))/modules/ardupilot
 echo "ArduPilot directory: $ARDUPILOT_DIR"
 
 # Check if the ArduPilot directory exists

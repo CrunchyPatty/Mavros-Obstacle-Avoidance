@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Setup ardupilot environment
-cd /home/Queen/shared_ws/src/arducopter
+cd /home/Queen/shared_ws/src/modules/ardupilot
 ./waf configure --board sitl
 ./waf copter
 ./Tools/environment_install/install-prereqs-ubuntu.sh -y
 
 # Setup gazebo plugin
-cd /home/Queen/shared_ws/src/ardupilot_gazebo
+cd /home/Queen/shared_ws/src/modules/ardupilot_gazebo
 mkdir build
 cd build
 cmake ..
