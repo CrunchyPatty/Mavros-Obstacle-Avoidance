@@ -1,0 +1,36 @@
+<launch>
+
+    <arg name="vehicle" default="ArduCopter" />
+    <arg name="model" default="gazebo-iris" />
+
+    <arg name="world_path" default="$(find autopilot)/worlds/" />
+
+
+    <node 
+        name="ardupilot" 
+        pkg="autopilot" 
+        type="ardupilot_launch.sh" 
+        output="screen" 
+        args="$(arg vehicle) $(arg model)"
+    />
+
+    <node 
+        name="gazebo" 
+        pkg="gazebo_ros" 
+        type="gzserver" 
+        args="--verbose $(arg world_path)/empty_iris.world"
+        output="screen" 
+    />
+
+    <node 
+        name="gazebo_gui" 
+        pkg="gazebo_ros" 
+        type="gzclient" 
+        output="screen"
+    />
+
+    <include file="$(find mavros)/launch/apm.launch">
+        <arg name="fcu_url" value="udp://:14550@" />
+    </include>
+
+</launch>

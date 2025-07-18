@@ -1,0 +1,2 @@
+autopilot
+-DCATKIN_DEVEL_PREFIX=/home/Queen/shared_ws/devel -DCMAKE_INSTALL_PREFIX=/home/Queen/shared_ws/install -G Unix Makefiles
