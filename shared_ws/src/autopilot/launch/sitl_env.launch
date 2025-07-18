@@ -1,18 +1,10 @@
 <launch>
 
-    <arg name="vehicle" default="ArduCopter" />
-    <arg name="model" default="gazebo-iris" />
-
     <arg name="world_path" default="$(find autopilot)/worlds/" />
+    <arg name="model_path" default="$(find autopilot)/models/" />
+    <arg name="config_path" default="$(find autopilot)/config" />    
 
-
-    <node 
-        name="ardupilot" 
-        pkg="autopilot" 
-        type="ardupilot_launch.sh" 
-        output="screen" 
-        args="$(arg vehicle) $(arg model)"
-    />
+    <arg name="gazebo_model" default="iris_with_camera" />
 
     <node 
         name="gazebo" 
@@ -22,11 +14,32 @@
         output="screen" 
     />
 
+    <node
+        name="spawn_model"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        args="
+            -file $(arg model_path)/$(arg gazebo_model)/model.sdf 
+            -sdf 
+            -model $(arg gazebo_model)
+            -x 0 -y 0 -z 0 
+            -R 0 -P 0 -Y 0"
+        output="screen"
+    />
+
     <node 
         name="gazebo_gui" 
         pkg="gazebo_ros" 
         type="gzclient" 
         output="screen"
+    />
+
+    <node 
+        name="ardupilot" 
+        pkg="autopilot" 
+        type="ardupilot_launch.sh" 
+        output="screen" 
+        args="ArduCopter gazebo-iris $(arg config_path)"
     />
 
     <include file="$(find mavros)/launch/apm.launch">

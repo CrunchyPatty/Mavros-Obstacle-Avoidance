@@ -16,4 +16,4 @@ MODEL_TYPE=$2
 
 cd "$ARDUPILOT_DIR"/Tools/autotest
 echo "Starting ArduPilot simulation for vehicle type: $VEHICLE_TYPE, model type: $MODEL_TYPE"
-./sim_vehicle.py -v $VEHICLE_TYPE -f $MODEL_TYPE --console --map
+./sim_vehicle.py -v $VEHICLE_TYPE -f $MODEL_TYPE --console --map --add-param-file=$3/custom_params.parm
