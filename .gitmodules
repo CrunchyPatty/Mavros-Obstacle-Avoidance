@@ -1,0 +1,3 @@
+[submodule "shared_ws/src/modules/ardupilot_gazebo"]
+	path = shared_ws/src/modules/ardupilot_gazebo
+	url = https://github.com/SwiftGust/ardupilot_gazebo

@@ -1,8 +1,0 @@
-prefix=/home/Queen/shared_ws/install
-
-Name: autopilot
-Description: Description of autopilot
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
