@@ -22,7 +22,7 @@
             -file $(arg model_path)/$(arg gazebo_model)/model.sdf 
             -sdf 
             -model $(arg gazebo_model)
-            -x 0 -y 0 -z 0 
+            -x 0 -y 0 -z 0
             -R 0 -P 0 -Y 0"
         output="screen"
     />
@@ -46,4 +46,15 @@
         <arg name="fcu_url" value="udp://:14550@" />
     </include>
 
+    <node 
+        name="takeoff_sequence"
+        pkg="autopilot"
+        type="takeoff_node"
+        output="screen"/>
+
+    <node 
+        name="state_publisher"
+        pkg="autopilot"
+        type="state_publisher"
+        output="screen"/>
 </launch>

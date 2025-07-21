@@ -23,7 +23,7 @@
       </axis>
     </joint>
 
-    <link name="cam_link">
+    <!-- <link name="cam_link">
       <pose>0 0 0 0 0 0 </pose>
       <inertial>
         <mass>0.01</mass>
@@ -62,7 +62,9 @@
         <lower>0</lower>
       </limit>
     </axis>
-  </joint>
+  </joint> -->
+
+  
     <!-- visual markers for debugging
     <link name="rotor_0_blade_1_cp">
       <gravity>0</gravity>

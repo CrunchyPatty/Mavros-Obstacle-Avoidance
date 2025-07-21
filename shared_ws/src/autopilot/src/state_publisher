@@ -1,0 +1,82 @@
+# import rospy
+# import tf2_ros as tf
+
+# from gazebo_msgs.msg import ModelStates
+# from geometry_msgs.msg import Pose, TransformStamped
+
+
+# def sub_callback(msg):
+
+#     model_name = ""
+#     model_pose = Pose()
+#     transform = TransformStamped()
+
+#     for i in range(len(msg.name)):
+#         model_name = msg.name[i]
+#         model_pose = msg.pose[i]
+
+#         transform.header.stamp = rospy.Time.now()
+#         transform.header.frame_id = "world"
+#         transform.child_frame_id = model_name
+
+#         transform.transform.translation.x = model_pose.position.x
+#         transform.transform.translation.y = model_pose.position.y
+#         transform.transform.translation.z = model_pose.position.z
+
+#         transform.transform.rotation.x = model_pose.orientation.x
+#         transform.transform.rotation.y = model_pose.orientation.y
+#         transform.transform.rotation.z = model_pose.orientation.z
+#         transform.transform.rotation.w = model_pose.orientation.w
+
+#         tf.TransformBroadcaster().sendTransform(transform)
+        
+#     # rospy.sleep(0.1)  # Sleep to allow the transform to be published
+
+
+# if __name__ == "__main__":
+#     rospy.init_node('state_publisher')
+
+#     # while not rospy.is_shutdown():
+#     #     rospy.Subscriber('/gazebo/model_states', ModelStates, sub_callback)
+#     #     rospy.Rate(10).sleep()
+#     rospy.Subscriber('/gazebo/model_states', ModelStates, sub_callback)
+#     rospy.spin()
+
+
+import rospy
+import tf2_ros as tf
+
+from geometry_msgs.msg import PoseStamped, TransformStamped
+
+
+def sub_callback(msg):
+
+    model_name = "iris_with_camera"
+    transform = TransformStamped()
+
+    transform.header.stamp = rospy.Time.now()
+    transform.header.frame_id = "world"
+    transform.child_frame_id = model_name
+
+    transform.transform.translation.x = msg.pose.position.x
+    transform.transform.translation.y = msg.pose.position.y
+    transform.transform.translation.z = msg.pose.position.z
+
+    transform.transform.rotation.x = msg.pose.orientation.x
+    transform.transform.rotation.y = msg.pose.orientation.y
+    transform.transform.rotation.z = msg.pose.orientation.z
+    transform.transform.rotation.w = msg.pose.orientation.w
+
+    tf.TransformBroadcaster().sendTransform(transform)
+    
+    # rospy.sleep(0.1)  # Sleep to allow the transform to be published
+
+
+if __name__ == "__main__":
+    rospy.init_node('state_publisher')
+
+    # while not rospy.is_shutdown():
+    #     rospy.Subscriber('/gazebo/model_states', ModelStates, sub_callback)
+    #     rospy.Rate(10).sleep()
+    rospy.Subscriber('/mavros/local_position/pose', PoseStamped, sub_callback)
+    rospy.spin()

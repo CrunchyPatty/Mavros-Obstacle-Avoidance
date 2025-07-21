@@ -43,6 +43,13 @@ LOITER> mode LAND
 
 <sdf version="1.6">
   <world name="default">
+
+    <gui>
+      <camera name="user_camera">
+        <pose>0 0 10 0 1.5708 0</pose>
+      </camera>
+    </gui>
+
     <physics type="ode">
       <ode>
         <solver>

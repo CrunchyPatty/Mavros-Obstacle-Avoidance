@@ -1,0 +1,45 @@
+import rospy
+import tf2_ros
+import tf.transformations as tft
+import numpy as np
+
+from geometry_msgs.msg import Twist
+
+
+def sub_callback(msg, tf_buffer):
+    transform = tf_buffer.lookup_transform("iris_with_camera", "world", rospy.Time(0))
+
+    quat = transform.transform.rotation
+    rot_matrix = tft.quaternion_matrix([quat.x, quat.y, quat.z, quat.w])[:3, :3]
+
+    transformed_vel = Twist()
+
+    linear_vel = np.array([msg.linear.x, msg.linear.y, msg.linear.z])
+    angular_vel = np.array([msg.angular.x, msg.angular.y, msg.angular.z])
+
+    linear_vel_transformed = np.dot(rot_matrix.T, linear_vel)
+    angular_vel_transformed = np.dot(rot_matrix.T, angular_vel)
+
+    
+
+    transformed_vel.linear.x, transformed_vel.linear.y, transformed_vel.linear.z = linear_vel_transformed
+    transformed_vel.angular.x, transformed_vel.angular.y, transformed_vel.angular.z = angular_vel_transformed
+
+    publisher(transformed_vel)
+
+def publisher(vel):
+    pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
+
+    rospy.loginfo("Publishing PositionTarget message: %s", vel)
+    pub.publish(vel)
+
+if __name__ == "__main__":
+    rospy.init_node('teleop_comm')
+    
+    tf_buffer = tf2_ros.Buffer()
+    tf_listener = tf2_ros.TransformListener(tf_buffer)
+    rospy.sleep(1) 
+
+    rospy.Subscriber('/cmd_vel', Twist, sub_callback, tf_buffer)
+
+    rospy.spin()
